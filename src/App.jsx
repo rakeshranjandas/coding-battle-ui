@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react"
+import { useDispatch, useSelector } from "react-redux"
+import APP_STATE from "./features/appstate/types"
+import { connected, contestStarted, contestEnded } from "./features/appstate"
+import { initialise } from "./features/appstate"
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const { cur_state } = useSelector((state) => state.appState)
+  const dispatch = useDispatch()
 
+  console.log(cur_state)
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App">
+      {cur_state == APP_STATE.CONNECTING && <h1>CONNECTING</h1>}
+      {cur_state == APP_STATE.READY && <h1>READY</h1>}
+      {cur_state == APP_STATE.CONTEST.STARTED && <h1>STARTED</h1>}
+      {cur_state == APP_STATE.CONTEST.ENDED && <h1>ENDED</h1>}
+
+      <button onClick={() => dispatch(connected())}>ready</button>
+      <button onClick={() => dispatch(contestStarted())}>start</button>
+      <button onClick={() => dispatch(contestEnded())}>end</button>
+      <button
+        onClick={() =>
+          dispatch(initialise({ userId: "xxe", inviteCode: "97" }))
+        }
+      >
+        doAjax
+      </button>
+    </div>
   )
 }
-
-export default App
