@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import TIMER_STATE from "./types"
 import { clearInterval } from "stompjs"
-import { setDuration } from "../contest"
 
 const initialState = {
   curState: TIMER_STATE.NOT_STARTED,
