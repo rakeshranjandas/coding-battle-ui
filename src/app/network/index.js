@@ -4,7 +4,7 @@ import Socket from "./socket"
 const Network = () => {
   return {
     ajax: Ajax,
-    // socket: Socket,
+    socket: Socket,
   }
 }
 
