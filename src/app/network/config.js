@@ -1,8 +1,10 @@
 const CONFIG = {
   NETWORK: {
-    SERVER_URL: "http://localhost:8100",
+    SERVER_URL: "localhost:8100",
 
     AJAX: {
+      PROTOCOL: "http",
+
       PATH_PREFIX: "v1/contest",
 
       PATHS: {
@@ -11,6 +13,8 @@ const CONFIG = {
     },
 
     SOCKET: {
+      PROTOCOL: "ws",
+
       URL: "coding-battle-websocket",
 
       PUBLISH: "/cb-publish/contest",
