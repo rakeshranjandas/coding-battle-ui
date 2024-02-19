@@ -31,7 +31,7 @@ const initialise = createAsyncThunk(
         dispatch(addParticipant(newUser))
       },
 
-      onContestStart: () => {},
+      onContestStart: (startTime) => {},
 
       onContestEnd: () => {},
 
