@@ -3,7 +3,13 @@ import config from "../config"
 
 const Ajax = {
   _getBaseUrl() {
-    return config.NETWORK.SERVER_URL + "/" + config.NETWORK.AJAX.PATH_PREFIX
+    return (
+      config.NETWORK.AJAX.PROTOCOL +
+      "://" +
+      config.NETWORK.SERVER_URL +
+      "/" +
+      config.NETWORK.AJAX.PATH_PREFIX
+    )
   },
 
   _getJoinUrl() {
@@ -25,7 +31,7 @@ const Ajax = {
       sessionId: inviteCode,
       userId: userId,
     })
-    return response
+    return response.data
   },
 }
 
