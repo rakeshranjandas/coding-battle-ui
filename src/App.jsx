@@ -21,7 +21,7 @@ export default function App() {
       <button onClick={() => dispatch(contestEnded())}>end</button>
       <button
         onClick={() =>
-          dispatch(initialise({ userId: "xxe", inviteCode: "97" }))
+          dispatch(initialise({ userId: "xx13e", inviteCode: "103" }))
         }
       >
         doAjax
