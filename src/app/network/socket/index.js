@@ -30,7 +30,10 @@ const Socket = {
         this._client.subscribe(
           config.NETWORK.SOCKET.SUBSCRIBE + "/" + this._room,
           (receivedMessage) =>
-            this._processReceivedMessage(receivedMessage, onReceiveHandlers)
+            this._processReceivedMessage(
+              JSON.parse(receivedMessage.body),
+              onReceiveHandlers
+            )
         )
       },
       (frame) => {
@@ -42,9 +45,12 @@ const Socket = {
   _processReceivedMessage(receivedMessage, onReceiveHandlers) {
     console.log("receivedMessage", receivedMessage)
     console.log("onReceiveHandlers", onReceiveHandlers)
+
+    switch (receivedMessage.eventType) {
+      case "JOIN":
+        onReceiveHandlers.onUserJoin(receivedMessage.userId)
+    }
   },
 }
-
-// 'ws://localhost:8100/coding-battle-websocket'
 
 export default Socket
