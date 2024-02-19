@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import APP_STATE from "./types"
 import Network from "../../app/network"
+import {
+  setUser,
+  setProblems,
+  setDuration,
+  setParticipants,
+  addParticipant,
+} from "../contest"
 
 const initialState = {
   cur_state: APP_STATE.CONNECTING,
@@ -10,10 +17,27 @@ const initialise = createAsyncThunk(
   "appstate/initialise",
 
   async (params, { dispatch, getState }) => {
-    let response = Network().ajax.sendJoinRequest(
-      params.userId,
-      params.inviteCode
-    )
+    let { ajax, socket } = Network()
+
+    let response = await ajax.sendJoinRequest(params.userId, params.inviteCode)
+
+    dispatch(setUser(params.userId))
+    dispatch(setProblems(response.questions))
+    dispatch(setDuration(response.duration))
+    dispatch(setParticipants(response.users))
+
+    socket.connect(response.sessionId, {
+      onUserJoin: (newUser) => {
+        dispatch(addParticipant(newUser))
+      },
+
+      onContestStart: () => {},
+
+      onContestEnd: () => {},
+
+      onUserSubmit: () => {},
+    })
+
     dispatch(appStateSlice.actions.connected())
   }
 )
