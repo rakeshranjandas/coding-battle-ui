@@ -28,6 +28,16 @@ export const contestSlice = createSlice({
     addParticipant: (state, action) => {
       state.participants[action.payload] = Array(state.problems.length).fill("")
     },
+    updateSubmission: (state, action) => {
+      let contestQuestionId = action.payload.contestQuestionId
+      let user = action.payload.user
+
+      let index = state.problems.findIndex(
+        (problem) => problem.contestQuestionId === contestQuestionId
+      )
+
+      state.participants[user][index] = "AC"
+    },
   },
 })
 
@@ -37,6 +47,7 @@ export const {
   setDuration,
   setParticipants,
   addParticipant,
+  updateSubmission,
 } = contestSlice.actions
 
 export default contestSlice.reducer

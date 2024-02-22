@@ -66,6 +66,13 @@ const Socket = {
       case "CONTEST_END":
         onReceiveHandlers.onContestEnd()
         break
+
+      case "SUBMIT_AC":
+        onReceiveHandlers.onUserSubmit(
+          receivedMessage.userId,
+          receivedMessage.contestQuestionId
+        )
+        break
     }
   },
 

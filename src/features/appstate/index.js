@@ -7,6 +7,7 @@ import {
   setDuration,
   setParticipants,
   addParticipant,
+  updateSubmission,
 } from "../contest"
 
 import { startTimer } from "../timer"
@@ -44,7 +45,14 @@ const initialise = createAsyncThunk(
 
       onContestEnd: () => {},
 
-      onUserSubmit: () => {},
+      onUserSubmit: (user, contestQuestionId) => {
+        dispatch(
+          updateSubmission({
+            user: user,
+            contestQuestionId: contestQuestionId,
+          })
+        )
+      },
     })
 
     dispatch(appStateSlice.actions.connected())
