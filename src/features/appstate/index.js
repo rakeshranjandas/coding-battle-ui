@@ -9,6 +9,8 @@ import {
   addParticipant,
 } from "../contest"
 
+import { startTimer } from "../timer"
+
 const initialState = {
   cur_state: APP_STATE.CONNECTING,
 }
@@ -26,12 +28,19 @@ const initialise = createAsyncThunk(
     dispatch(setDuration(response.duration))
     dispatch(setParticipants(response.users))
 
-    socket.connect(response.sessionId, {
+    socket.connect(response.sessionId, params.userId, {
       onUserJoin: (newUser) => {
         dispatch(addParticipant(newUser))
       },
 
-      onContestStart: (startTime) => {},
+      onContestStart: (startTime) => {
+        dispatch(
+          startTimer({
+            duration: response.duration,
+            startingTimestamp: startTime,
+          })
+        )
+      },
 
       onContestEnd: () => {},
 

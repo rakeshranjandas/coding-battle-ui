@@ -4,6 +4,7 @@ import config from "../config"
 const Socket = {
   _client: null,
   _room: null,
+  _userId: null,
 
   _init() {
     this._client = Stomp.client(
@@ -19,9 +20,14 @@ const Socket = {
     this._room = room
   },
 
-  connect(room, onReceiveHandlers) {
+  _setUser(userId) {
+    this._userId = userId
+  },
+
+  connect(room, userId, onReceiveHandlers) {
     this._init()
     this._setRoom(room)
+    this._setUser(userId)
 
     this._client.connect(
       {},
@@ -35,6 +41,8 @@ const Socket = {
               onReceiveHandlers
             )
         )
+
+        this.sendJoined()
       },
       (frame) => {
         console.log("Socket error", frame)
@@ -49,7 +57,40 @@ const Socket = {
     switch (receivedMessage.eventType) {
       case "JOIN":
         onReceiveHandlers.onUserJoin(receivedMessage.userId)
+        break
+
+      case "CONTEST_START":
+        onReceiveHandlers.onContestStart(receivedMessage.startedAt)
+        break
+
+      case "CONTEST_END":
+        onReceiveHandlers.onContestEnd()
+        break
     }
+  },
+
+  sendJoined() {
+    this._send("", {
+      eventType: "JOIN",
+      userId: this._userId,
+    })
+  },
+
+  sendStart() {
+    this._send("/start", {
+      eventType: "CONTEST_START",
+      userId: this._userId,
+    })
+  },
+
+  sendSubmission() {},
+
+  _send(publishEndpoint, body) {
+    this._client.send(
+      config.NETWORK.SOCKET.PUBLISH + "/" + this._room + publishEndpoint,
+      {},
+      JSON.stringify(body)
+    )
   },
 }
 
