@@ -29,8 +29,7 @@ export const contestSlice = createSlice({
       state.participants[action.payload] = Array(state.problems.length).fill("")
     },
     updateSubmission: (state, action) => {
-      let contestQuestionId = action.payload.contestQuestionId
-      let user = action.payload.user
+      let { user, contestQuestionId } = action.payload
 
       let index = state.problems.findIndex(
         (problem) => problem.contestQuestionId === contestQuestionId
