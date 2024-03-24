@@ -1,4 +1,6 @@
 const APP_STATE = {
+  NOT_READY: "not_ready",
+
   CONNECTING: "connecting",
 
   READY: "ready",

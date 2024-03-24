@@ -1,0 +1,18 @@
+
+
+Phase 1
+
+    - Create a mockup with VANILLA CSS
+
+    - hook up with the js events
+
+    - Extension -> Plan of action
+
+
+Phase 2
+
+    - Research a CSS library
+
+    - Build a static version of site using CSS library. No JS, only dummy data
+
+    - Make it dynamic by adding JS 

@@ -13,7 +13,7 @@ import {
 import { startTimer } from "../timer"
 
 const initialState = {
-  cur_state: APP_STATE.CONNECTING,
+  cur_state: APP_STATE.NOT_READY,
 }
 
 const initialise = createAsyncThunk(
@@ -41,9 +41,13 @@ const initialise = createAsyncThunk(
             startingTimestamp: startTime,
           })
         )
+
+        dispatch(appStateSlice.actions.contestStarted())
       },
 
-      onContestEnd: () => {},
+      onContestEnd: () => {
+        dispatch(appStateSlice.actions.contestEnded())
+      },
 
       onUserSubmit: (user, contestQuestionId) => {
         dispatch(
@@ -63,6 +67,9 @@ const appStateSlice = createSlice({
   name: "appstate",
   initialState,
   reducers: {
+    connecting: (state) => {
+      state.cur_state = APP_STATE.CONNECTING
+    },
     connected: (state) => {
       state.cur_state = APP_STATE.READY
     },

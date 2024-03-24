@@ -90,7 +90,13 @@ const Socket = {
     })
   },
 
-  sendSubmission() {},
+  sendSubmissionAccepted(contestQuestionId) {
+    this._send("/submit", {
+      eventType: "SUBMIT_AC",
+      userId: this._userId,
+      contestQuestionId: contestQuestionId,
+    })
+  },
 
   _send(publishEndpoint, body) {
     this._client.send(
