@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { initialise } from "../features/appstate"
 
@@ -6,6 +6,19 @@ function PutUserAndnviteCode() {
   const [user, setUser] = React.useState("")
   const [invite, setInvite] = React.useState("")
   const dispatch = useDispatch()
+
+  function doJoin(user, invite) {
+    dispatch(initialise({ userId: user, inviteCode: invite }))
+  }
+
+  useEffect(() => {
+    const queryParameters = new URLSearchParams(window.location.search)
+    const param_user = queryParameters.get("user")
+    const param_invite = queryParameters.get("invite")
+    if (param_user !== null && param_invite !== null) {
+      doJoin(param_user, param_invite)
+    }
+  })
 
   return (
     <div>
@@ -34,7 +47,7 @@ function PutUserAndnviteCode() {
             return
           }
 
-          dispatch(initialise({ userId: user, inviteCode: invite }))
+          doJoin(user, invite)
         }}
       >
         Enter
